@@ -2,6 +2,10 @@
 
 Compute probabilities for flower parent and offspring genotypes in Animal Crossing: New Horizons.
 
+## Prerequisites
+
+Written in python v3.7.0
+
 ## Getting Started
 
 Flower genotypes and phenotypes are pulled from the table on the [Animal Crossing Wiki Article on Flower Mechanics](https://animalcrossing.fandom.com/wiki/Flower/New_Horizons_mechanics).
@@ -67,9 +71,50 @@ BayesObj{
  }
 ```
 
-### Prerequisites
+## Data Structure
 
-Written in python v3.7.0
+Flower genotypes are saved in a Genotype class instance, which encodes the genes as GenePair class instances. Paired with the data is a dictionary describing the phenotype colors. GenePairs are given one GenePairValue to initialize, which encodes a single genepair ("gg", "Gg", or "GG"). Genotypes are passed as a class with each gene given a key value ("R", "Y", "W", or "B" in the predefined types).
+
+```
+>>> g0 = GenePair(GenePairValue.gg)
+>>> print(g0)
+gg
+>>> print(gpRoseSeedWhite)
+{'R': gg, 'Y': gg, 'W': Gg, 'B': gg}
+>>> Genotype(gpRoseSeedWhite,pheno={})
+(R:gg)(Y:gg)(W:Gg)(B:gg)[]
+```
+
+If the phenotype is defined, then that will show up in the string description too
+
+```
+>>> Genotype(gpRoseSeedWhite,pheno=RosePheno)
+(R:gg)(Y:gg)(W:Gg)(B:gg)[Color.WHITE]
+```
+
+To evaluate probabilities, the Genotype class is wrapped in a BayesProb class instance wrapper, which includes a probability with the class object (though the code is flexible enough to accept any object rather than only the Genotype class). The BayesProb are collected into a container class, BayesObj, which has a set of probabilities that sum to exactly 1.
+
+```
+>>> b0 = BayesProb(Genotype(gpRoseSeedWhite,pheno=RosePheno),1)
+>>> print(b0)
+(R:gg)(Y:gg)(W:Gg)(B:gg)[Color.WHITE]:1
+>>> b1 = BayesObj([b0])
+>>> print(b1)
+BayesObj{
+  (R:gg)(Y:gg)(W:Gg)(B:gg)[Color.WHITE]:1
+ }
+```
+
+The BayesObj class objects can be accessed through the attribute ".objs". The BayesProb class object is accessed with the attribute ".obj".
+
+```
+>>> b1.objs
+[(R:gg)(Y:gg)(W:Gg)(B:gg)[Color.WHITE]:1]
+>>> b1.objs[0]
+(R:gg)(Y:gg)(W:Gg)(B:gg)[Color.WHITE]:1
+>>> b1.objs[0].obj
+(R:gg)(Y:gg)(W:Gg)(B:gg)[Color.WHITE]
+```
 
 ## Authors
 
