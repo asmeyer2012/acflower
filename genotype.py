@@ -181,4 +181,16 @@ def BreedOutcome( parent0, parent1, child_colors):
     return (child_colors == sorted([ x.Phenotype() for x in ocm.obj ]))
   return parents.Posterior( outcome_fn, test_fn)
 
+## build a BayesObj with democratic genotype from a flower with known color
+## has equal probability for all genotypes with a specific phenotype
+def UnknownGenotype( gpair_keys, pheno, color):
+  gpair_keys = sorted( list( gpair_keys))
+  objs = []
+  for (gpv,clr) in pheno.items():
+    if clr == color:
+      gdict = dict(zip(gpair_keys,[GenePair( GenePairValue(x)) for x in gpv]))
+      objs.append( Genotype( gdict, pheno=pheno))
+  Nobj = len( objs)
+  bobjs = [ BayesProb( obj, sp.Rational(1,Nobj)) for obj in objs ]
+  return BayesObj( bobjs)
 

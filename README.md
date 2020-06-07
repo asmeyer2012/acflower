@@ -71,6 +71,23 @@ BayesObj{
  }
 ```
 
+If a flower has unknown genotype, you can also use a function to build a democratic probability for each possible genotype
+
+```
+>>> UnknownGenotype( ('R','Y','W','B'), RosePheno, Color.ORANGE)
+BayesObj{
+  (B:Gg)(R:GG)(W:Gg)(Y:GG)[Color.ORANGE]:1/9
+  (B:Gg)(R:GG)(W:gg)(Y:GG)[Color.ORANGE]:1/9
+  (B:Gg)(R:GG)(W:gg)(Y:Gg)[Color.ORANGE]:1/9
+  (B:gg)(R:GG)(W:Gg)(Y:GG)[Color.ORANGE]:1/9
+  (B:gg)(R:GG)(W:gg)(Y:GG)[Color.ORANGE]:1/9
+  (B:gg)(R:GG)(W:gg)(Y:Gg)[Color.ORANGE]:1/9
+  (B:gg)(R:Gg)(W:Gg)(Y:GG)[Color.ORANGE]:1/9
+  (B:gg)(R:Gg)(W:gg)(Y:GG)[Color.ORANGE]:1/9
+  (B:gg)(R:Gg)(W:gg)(Y:Gg)[Color.ORANGE]:1/9
+ }
+```
+
 ## Data Structure
 
 Flower genotypes are saved in a Genotype class instance, which encodes the genes as GenePair class instances. Paired with the data is a dictionary describing the phenotype colors. GenePairs are given one GenePairValue to initialize, which encodes a single genepair ("gg", "Gg", or "GG"). Genotypes are passed as a class with each gene given a key value ("R", "Y", "W", or "B" in the predefined types).
@@ -116,7 +133,7 @@ The BayesObj class objects can be accessed through the attribute ".objs". The Ba
 (R:gg)(Y:gg)(W:Gg)(B:gg)[Color.WHITE]
 ```
 
-## Authors
+## Author
 
 * **Aaron S. Meyer** - [asmeyer2012](https://github.com/asmeyer2012)
 
